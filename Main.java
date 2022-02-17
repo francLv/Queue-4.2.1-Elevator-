@@ -10,13 +10,18 @@ public class Main {
         int inputFloor;
         int zeroFloor = 0;
         int lastFloor = 25;
+        int previousFloor = -1;
         while (true) {
             System.out.println("Ожидаю ввода этажа: (для завершения введите 0)");
             inputFloor = scanner.nextInt();
-            if (inputFloor == zeroFloor) {
+            if (inputFloor == previousFloor) {
+                System.out.println("Лифт уже на данном этаже");
+            } else if (inputFloor == zeroFloor) {
+                liftMoves.offer(inputFloor);
                 break;
             } else if (inputFloor > zeroFloor && inputFloor <= lastFloor) {
                 liftMoves.offer(inputFloor);
+                previousFloor = inputFloor;
             } else System.out.println("Такого этажа нет в доме");
         }
         finishMap();
@@ -30,16 +35,13 @@ public class Main {
         int currentfloor = 0;
         while (!liftMoves.isEmpty()) {
             currentfloor = liftMoves.poll();
-            if (previousFloor != 0) {
-                totalSeconds += Math.abs(currentfloor - previousFloor) * waitMoveInSeconds;
-                totalSeconds += waitDoorsInSeconds;
-            } else totalSeconds = currentfloor * waitMoveInSeconds + waitDoorsInSeconds;
-            previousFloor = currentfloor;
+            totalSeconds += Math.abs(currentfloor - previousFloor) * waitMoveInSeconds;
+            totalSeconds += waitDoorsInSeconds;
             System.out.print("Этаж " + currentfloor + " -> ");
         }
         totalSeconds += currentfloor * waitMoveInSeconds; //возвращаемся на 0 этаж
-        System.out.println("Этаж 0");
-        System.out.println("Время затраченное лифтом на маршрут: " + totalSeconds + " с.");
+        //System.out.println("Этаж 0");
+        System.out.println("\nВремя затраченное лифтом на маршрут: " + totalSeconds + " с.");
     }
 }
 
