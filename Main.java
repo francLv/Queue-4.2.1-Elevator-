@@ -40,7 +40,6 @@ public class Main {
             System.out.print("Этаж " + currentfloor + " -> ");
         }
         totalSeconds += currentfloor * waitMoveInSeconds; //возвращаемся на 0 этаж
-        //System.out.println("Этаж 0");
         System.out.println("\nВремя затраченное лифтом на маршрут: " + totalSeconds + " с.");
     }
 }
